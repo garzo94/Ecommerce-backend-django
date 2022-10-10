@@ -9,7 +9,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    print('que pedo')
     def validate(self, attrs):
+
         data = super().validate(attrs)
 
         # data['username'] = self.user.username
@@ -21,6 +23,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         return data
 
 class MyTokenObtainPairView(TokenObtainPairView):
+
     serializer_class = MyTokenObtainPairSerializer
 
 @api_view(['POST'])
