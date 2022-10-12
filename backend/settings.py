@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY','ZDFSDFSDF')
+SECRET_KEY = 'sdfsdfsdf'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 1
@@ -169,8 +169,8 @@ MEDIA_ROOT=os.path.join(BASE_DIR, 'media')
 
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID ')
-AWS_SECRET_ACCESS_KEY =  os.environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_ACCESS_KEY_ID = 'AKIAT2DPK7XMX7OEFYEU'
+AWS_SECRET_ACCESS_KEY =  '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'
 AWS_STORAGE_BUCKET_NAME = 'drumshop'
 AWS_QUERYSTRING_AUTH = False
 AWS_S3_FILE_OVERWRITE = False
