@@ -6,12 +6,9 @@ from base.serializers import ProductSerializer, CarItemsSerializer, OrderSeriali
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
-from django.http import Http404
-from django.shortcuts import (get_object_or_404,
-                              render,
-                              HttpResponseRedirect)
+from datetime import datetime
 @api_view(['POST',])
-@permission_classes(['IsAuthenticated',])
+@permission_classes([IsAuthenticated,])
 def addOrderItems(request):
     user = request.user
     data = request.data
@@ -20,8 +17,8 @@ def addOrderItems(request):
     if orderItems and len(orderItems) == 0:
         return Response({'detail':'No order Items'},status=status.HTTP_400_BAD_REQUEST)
     else:
-
         # creating order
+        #I have to pass an boject of total price of all the shopping
         order = Order.objects.create(
             user=user,
             paymentMethod = 'Paypal',
@@ -31,17 +28,20 @@ def addOrderItems(request):
 
         )
      # creating shipiing
-        shipping = ShippingAddress(
-            order=order,
-            address=data['shippingAddress']['address'],
-            city=data['shippingAddress']['city'],
-            postalCode=data['shippingAddress']['postalCode'],
-            country=data['shippingAddress']['country'],
-            )
+     # I have to pass and object of address, city, postalcode, country
+        ShippingAddress.objects.create(
+        order=order,
+        address=data['shippingAddress']['address'],
+        city=data['shippingAddress']['city'],
+        postalCode=data['shippingAddress']['postalcode'],
+        shippingPrice=0,
+        country=data['shippingAddress']['country'],
+        )
 
-    # creat order items and set order to orderItem relationship
+    # create order items and set order to orderItem relationship
+    # I need to pass an array of objects with id of product, qty, total price of product
         for i in orderItems:
-            product = Product.objects.get(_id=i['product'])
+            product = Product.objects.get(_id=i['idprod'])
             item = OrderItem.objects.create(
                 product=product,
                 order=order,
@@ -53,5 +53,28 @@ def addOrderItems(request):
     ### update stock
         product.countInStock -= item.qty
         product.save()
-    serializer = OrderSerializer(order,many=True)
+    serializer = OrderSerializer(order,many=False)
     return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated,])
+def getOrderById(request,pk):
+    user= request.user
+    try:
+        order = Order.objects.get(_id=pk)
+        if user.is_staff or order.user == user:
+            serializer = OrderSerializer(order, many=False)
+            return Response(serializer.data)
+        else:
+            Response({'detail':'Not autorized to view this order'}, status= status.HTTP_401_UNAUTHORIZED)
+    except:
+        return Response({'detail':'Order not exists'}, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['PUT',])
+@permission_classes([IsAuthenticated,])
+def updateOrderToPaid(request,pk):
+    order = Order.objects.get(_id=pk)
+    order.isPaid = True
+    order.paidAt = datetime.no2()
+    order.svae()
+    return Response('Order was paid')

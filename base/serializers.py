@@ -1,13 +1,26 @@
 
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from base.models import Product, CarItems, Order, OrderItem, ShippingAddress
+from base.models import Product, CarItems, Order, OrderItem, ShippingAddress, Review
 from rest_framework_simplejwt.tokens import RefreshToken
 
+
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = '__all__'
+
+
 class ProductSerializer(serializers.ModelSerializer):
+    reviews = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = Product
         fields = '__all__'
+
+    def get_reviews(self,obj):
+        reviews = obj.review_set.all()
+        serializer = ReviewSerializer(reviews, many=True)
+        return serializer.data
 
 class CarItemsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -57,28 +70,28 @@ class OrderItemSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class OrderSerializer(serializers.ModelSerializer):
-    order = serializers.SerializerMethodField(read_only=True)
+    orderItems = serializers.SerializerMethodField(read_only=True)
     ShippingAddress = serializers.SerializerMethodField(read_only=True)
     user = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = Order
         fields = '__all__'
 
-    def get_orders(self, obj):
+    def get_orderItems(self, obj): #addubg extra fields to my serializer from models
         items = obj.orderitem_set.all()
-        serializer = OrderItemSerializer(items, may=True)
+        serializer = OrderItemSerializer(items, many=True)
         return serializer.data
 
-    def get_shippingAddress(self, obj):
+    def get_ShippingAddress(self, obj):
         try:
-            address = ShippingAddressSerializer(obj.shippingAddress, many=False)
+            address = ShippingAddressSerializer(obj.shippingaddress, many=False).data
         except:
             address = False
 
         return address
 
-    def get_users(self, obj):
+    def get_user(self, obj):
         user = obj.user
-        serializer = UserSerializer(user, may=False)
+        serializer = UserSerializer(user, many=False)
         return serializer.data
 

@@ -2,11 +2,12 @@ from tokenize import blank_re
 from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
-
+def user_directory_path(instance,filename):
+    return 'image/{0}'.format(filename)
 class Product(models.Model):
     user =  models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=200,null=True, blank=True)
-    image = models.ImageField(null=True, blank=True)
+    image = image = models.ImageField(upload_to=user_directory_path)
     brand =  models.CharField(max_length=200, null=True, blank=True)
     category = models.CharField(max_length=200, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
@@ -26,6 +27,7 @@ class Review(models.Model):
     name =models.CharField(max_length=200,null=True, blank=True)
     rating = models.IntegerField(null=True, blank=True, default=0)
     comment =  models.TextField(null=True, blank=True)
+    createdAt = models.DateTimeField(auto_now_add=True)
     _id = models.AutoField(primary_key=True, editable=False)
 
     def __str__(self):
@@ -45,7 +47,7 @@ class Order(models.Model):
      _id = models.AutoField(primary_key=True, editable=False)
 
      def __str__(self):
-        return str(self.createdAt)
+        return str(self.user)
 
 class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
@@ -53,7 +55,7 @@ class OrderItem(models.Model):
     name = models.CharField(max_length=200,null=True, blank=True)
     qty = models.IntegerField(null=True, blank=True, default=0)
     price = models.DecimalField(max_digits=7,decimal_places=2)
-    image = models.IntegerField(null=True, blank=True, default=0)
+    image = models.ImageField(null=True, blank=True)
     _id = models.AutoField(primary_key=True, editable=False)
 
     def __str__(self):
