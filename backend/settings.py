@@ -28,7 +28,7 @@ SECRET_KEY = 'sdfsdfsdf'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 1
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
