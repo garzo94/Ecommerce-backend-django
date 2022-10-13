@@ -30,7 +30,7 @@ CSRF_TRUSTED_ORIGINS = ['https://ecommerce-backend-django-production.up.railway.
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = ['ecommerce-backend-django-production.up.railway.app','127.0.0.1']
+ALLOWED_HOSTS = ['ecommerce-backend-django-production.up.railway.app']
 
 
 # Application definition
