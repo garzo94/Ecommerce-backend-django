@@ -33,7 +33,7 @@ CSRF_TRUSTED_ORIGINS = ['https://ecommerce-backend-django-production.up.railway.
 DEBUG = True
 
 
-ALLOWED_HOSTS = ['ecommerce-backend-django-production.up.railway.app']
+ALLOWED_HOSTS = ['*']
 # ALLOWED_HOSTS = ['*']
 # DEBUG_PROPAGATE_EXCEPTIONS = True
 
@@ -54,8 +54,9 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    "corsheaders.middleware.CorsMiddleware",
+
     'django.middleware.security.SecurityMiddleware',
+      "corsheaders.middleware.CorsMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -68,7 +69,6 @@ MIDDLEWARE = [
 REST_FRAMEWORK = {
 
     'DEFAULT_AUTHENTICATION_CLASSES': (
-
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
 
@@ -107,6 +107,8 @@ TEMPLATES = [
         },
     },
 ]
+
+CORS_ALLOW_ALL_ORIGINS=True
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
@@ -171,9 +173,6 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 MEDIA_URL = '/media/'
 MEDIA_ROOT=os.path.join(BASE_DIR, 'media')
 
-
-
-
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 AWS_ACCESS_KEY_ID = 'AKIAT2DPK7XM3PPKYMW'
 # AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
@@ -186,19 +185,11 @@ AWS_S3_FILE_OVERWRITE = False
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-CORS_ALLOW_ALL_ORIGINS: True
+
 # CORS_ALLOWED_ORIGINS = [
 #     "*",
 # ]
 
-CORS_ALLOW_METHODS = [
-    "DELETE",
-    "GET",
-    "OPTIONS",
-    "PATCH",
-    "POST",
-    "PUT",
-]
 
 
 
