@@ -24,7 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
+# SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = "sdfsdf"
 CSRF_TRUSTED_ORIGINS = ['https://ecommerce-backend-django-production.up.railway.app']
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -33,6 +34,7 @@ DEBUG = True
 
 
 ALLOWED_HOSTS = ['ecommerce-backend-django-production.up.railway.app']
+# ALLOWED_HOSTS = ['*']
 # DEBUG_PROPAGATE_EXCEPTIONS = True
 
 # Application definition
@@ -117,7 +119,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'railway',
         'USER': 'postgres',
-        'PASSWORD': '2YLLFNfVCCF1McHCUycl',
+        'PASSWORD': 'Ce0NON9mNAZ4MxNAPhM2',
         'HOST': 'containers-us-west-87.railway.app',
         'PORT': '6595',
     }
@@ -173,8 +175,9 @@ MEDIA_ROOT=os.path.join(BASE_DIR, 'media')
 
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY =  config('AWS_SECRET_ACCESS_KEY')
+AWS_ACCESS_KEY_ID = 'AKIAT2DPK7XM3PPKYMW'
+# AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY =  'K6+cqZiFoqTsit0giW2o4sRXIsJw00kbgkeRrcrj'
 AWS_STORAGE_BUCKET_NAME = 'drumshop'
 AWS_QUERYSTRING_AUTH = False
 AWS_S3_FILE_OVERWRITE = False
